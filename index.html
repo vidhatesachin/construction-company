@@ -1,0 +1,340 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.wrap{display:flex;flex-direction:column;align-items:center;padding:20px 0 28px;background:var(--color-background-secondary);border-radius:var(--border-radius-lg)}
+.device-frame{width:295px;background:#181f2e;border-radius:50px;padding:12px;box-shadow:0 0 0 1.5px #2c3a52,0 0 0 3px #0e1320}
+.screen-clip{background:#f4f5f8;border-radius:40px;overflow:hidden;min-height:596px;display:flex;flex-direction:column;position:relative}
+.notch-bar{height:30px;background:#181f2e;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;flex-shrink:0}
+.notch-pill{width:88px;height:22px;background:#0e1320;border-radius:12px}
+
+.sc{display:none;flex-direction:column;flex:1}
+.sc.on{display:flex}
+
+.topbar{background:#fff;padding:14px 16px 10px;border-bottom:0.5px solid #e8eaed;flex-shrink:0}
+.back{font-size:12px;color:#4a90d9;font-weight:600;cursor:pointer;margin-bottom:4px}
+.topbar-lbl{font-size:10px;color:#9aa0ad;font-weight:500;text-transform:uppercase;letter-spacing:0.5px}
+.topbar-title{font-size:17px;font-weight:700;color:#111820;letter-spacing:-0.3px;margin-top:2px}
+.topbar-sub{font-size:11px;color:#9aa0ad;margin-top:1px}
+
+.body{flex:1;overflow-y:auto;padding:12px}
+
+.card{background:#fff;border-radius:14px;padding:13px 14px;margin-bottom:9px;border:0.5px solid #e8eaed;cursor:pointer}
+.card:active{opacity:.75}
+.card-name{font-size:14px;font-weight:700;color:#111820;letter-spacing:-0.2px}
+.card-sub{font-size:11px;color:#9aa0ad;margin-top:2px}
+.bar{height:4px;background:#eef0f4;border-radius:2px;margin:9px 0 5px}
+.fill{height:4px;border-radius:2px}
+.fill-o{background:#e8620a}
+.fill-g{background:#1a8a55}
+.row{display:flex;align-items:center;justify-content:space-between}
+
+.chip{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;border-radius:20px;font-size:10px;font-weight:700}
+.ch-g{background:#edf7f2;color:#1a8a55}
+.ch-a{background:#fef8ec;color:#b86a00}
+.ch-n{background:#eef0f4;color:#6b7280}
+
+.stage-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:0.5px solid #f0f2f5}
+.num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.nd{background:#edf7f2;color:#1a8a55}
+.nc{background:#e8620a;color:#fff}
+.np{background:#eef0f4;color:#9aa0ad;border:0.5px solid #e0e3e8}
+.sname{font-size:12px;font-weight:600;color:#111820}
+.strade{font-size:10px;color:#9aa0ad;margin-top:1px}
+
+.q-card{background:#fff;border-radius:13px;padding:13px;margin-bottom:8px;border:0.5px solid #e8eaed}
+.q-card.sel{border:1.5px solid #1a8a55;background:#f6fbf8}
+.q-name{font-size:13px;font-weight:700;color:#111820}
+.q-lic{font-size:10px;color:#9aa0ad;margin-top:1px}
+.q-price{font-size:20px;font-weight:800;color:#111820;letter-spacing:-0.4px;margin:7px 0 2px}
+.q-note{font-size:10px;color:#9aa0ad;line-height:1.4}
+.q-actions{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:0.5px solid #f0f2f5}
+.best{font-size:10px;font-weight:700;color:#1a8a55;background:#edf7f2;padding:2px 7px;border-radius:20px}
+.q-btns{display:flex;gap:6px}
+.qbtn{padding:5px 11px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;border:0.5px solid #d0d4dc;background:#fff;font-family:inherit}
+.qbtn-preview{color:#4a90d9;border-color:#c0d8f0}
+.qbtn-sel{color:#6b7280}
+.qbtn-sel.on{background:#1a8a55;color:#fff;border-color:#1a8a55}
+
+.preview-overlay{position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:18px 18px 0 0;padding:16px;border-top:0.5px solid #e8eaed;z-index:10;display:none}
+.preview-overlay.open{display:block}
+.pv-handle{width:36px;height:4px;background:#d0d4dc;border-radius:2px;margin:0 auto 14px}
+.pv-title{font-size:13px;font-weight:700;color:#111820;margin-bottom:12px}
+.pv-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:0.5px solid #f4f5f8;font-size:12px}
+.pv-row .l{color:#9aa0ad}
+.pv-total{display:flex;justify-content:space-between;background:#111820;border-radius:10px;padding:10px 12px;margin-top:8px}
+.pv-close{width:100%;margin-top:10px;padding:10px;border-radius:10px;background:#f0f2f5;border:none;font-size:12px;font-weight:700;color:#111820;cursor:pointer;font-family:inherit}
+
+.btm{padding:10px 12px;background:#fff;border-top:0.5px solid #e8eaed;display:flex;gap:7px;flex-shrink:0}
+.btn{flex:1;padding:12px;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;border:none;font-family:inherit}
+.btn-p{background:#e8620a;color:#fff}
+.btn-s{background:#f0f2f5;color:#111820}
+
+.po-top{background:#111820;padding:14px 16px 12px;flex-shrink:0}
+.po-t{font-size:15px;font-weight:700;color:#fff}
+.po-s{font-size:10px;color:#8899aa;margin-top:2px}
+.po-meta{display:flex;gap:18px;margin-top:10px}
+.pm label{font-size:9px;color:#8899aa;text-transform:uppercase;letter-spacing:0.4px;display:block}
+.pm span{font-size:12px;font-weight:700;color:#fff;font-family:monospace}
+.po-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid #f0f2f5;font-size:12px;color:#111820}
+.po-row .l{color:#9aa0ad;font-size:11px}
+.po-tot{display:flex;justify-content:space-between;background:#111820;border-radius:11px;padding:11px 13px;margin-top:10px}
+
+.home-bar{display:flex;justify-content:center;padding:7px 0 4px;background:#f4f5f8;flex-shrink:0}
+.home-pill{width:90px;height:4px;background:#1c2635;border-radius:2px}
+
+.splash{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;background:#111820;cursor:pointer}
+.splash-logo-ring{width:72px;height:72px;border-radius:20px;background:#e8620a;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.splash-logo-ring svg{width:36px;height:36px}
+.splash-name{font-size:20px;font-weight:800;color:#fff;letter-spacing:-0.4px}
+.splash-sub{font-size:11px;color:#8899aa;margin-top:4px;letter-spacing:0.3px}
+.splash-bar-wrap{width:100px;height:3px;background:#2c3a52;border-radius:2px;margin-top:40px;overflow:hidden}
+.splash-bar-fill{height:3px;background:#e8620a;border-radius:2px;width:0}
+
+.login-body{flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding:24px 20px;background:#111820}
+.login-card{background:#fff;border-radius:20px;padding:20px}
+.login-title{font-size:16px;font-weight:700;color:#111820;margin-bottom:4px}
+.login-sub{font-size:11px;color:#9aa0ad;margin-bottom:16px}
+.login-input{width:100%;padding:10px 12px;border-radius:10px;border:0.5px solid #e0e3e8;font-size:13px;font-family:inherit;background:#f8f9fb;color:#111820;margin-bottom:8px;outline:none}
+.login-btn{width:100%;padding:13px;border-radius:11px;background:#e8620a;color:#fff;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:inherit;margin-top:4px}
+.login-hint{text-align:center;font-size:10px;color:#9aa0ad;margin-top:10px}
+</style>
+
+<div class="wrap">
+  <div class="device-frame">
+    <div class="screen-clip">
+      <div class="notch-bar"><div class="notch-pill"></div></div>
+
+      <!-- SPLASH -->
+      <div class="sc on" id="s0" style="flex:1">
+        <div class="splash">
+          <div class="splash-logo-ring">
+            <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="20" width="6" height="12" rx="1" fill="white"/>
+              <rect x="15" y="12" width="6" height="20" rx="1" fill="white"/>
+              <rect x="26" y="6" width="6" height="26" rx="1" fill="white"/>
+              <polyline points="7,20 18,12 29,6" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="splash-name">Destiny</div>
+          <div class="splash-sub">CONSTRUCTION</div>
+          <div class="splash-bar-wrap"><div class="splash-bar-fill" id="splash-fill"></div></div>
+        </div>
+      </div>
+
+      <!-- LOGIN -->
+      <div class="sc" id="s-login" style="flex:1;background:#111820">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px">
+          <div style="width:44px;height:44px;border-radius:12px;background:#e8620a;display:flex;align-items:center;justify-content:center">
+            <svg viewBox="0 0 36 36" fill="none" width="22" height="22"><rect x="4" y="20" width="6" height="12" rx="1" fill="white"/><rect x="15" y="12" width="6" height="20" rx="1" fill="white"/><rect x="26" y="6" width="6" height="26" rx="1" fill="white"/></svg>
+          </div>
+          <div style="font-size:16px;font-weight:800;color:#fff;letter-spacing:-0.3px">Destiny</div>
+          <div style="font-size:10px;color:#8899aa;letter-spacing:0.4px">CONSTRUCTION</div>
+        </div>
+        <div class="login-body">
+          <div class="login-card">
+            <div class="login-title">Welcome back</div>
+            <div class="login-sub">Sign in to your account</div>
+            <input class="login-input" type="text" placeholder="Email address" value="harpreet@destiny.com.au" readonly />
+            <input class="login-input" type="password" placeholder="Password" value="••••••••" readonly />
+            <button class="login-btn" onclick="go('s1')">Sign in</button>
+            <div class="login-hint">Destiny Construction Pty Ltd · Lic 371611C</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- S1: PROJECTS -->
+      <div class="sc" id="s1">
+        <div class="topbar">
+          <div class="topbar-lbl">Destiny Construction</div>
+          <div class="topbar-title">Projects</div>
+        </div>
+        <div class="body">
+          <div class="card" onclick="go('s2')">
+            <div class="card-name">Oakdale Residences</div>
+            <div class="card-sub">Oran Park NSW · 3 sites</div>
+            <div class="bar"><div class="fill fill-o" style="width:48%"></div></div>
+            <div class="row"><span style="font-size:10px;color:#9aa0ad">48% complete</span><div style="display:flex;gap:4px"><span class="chip ch-g">3 Active</span><span class="chip ch-a">2 Quotes</span></div></div>
+          </div>
+          <div class="card" onclick="go('s2')">
+            <div class="card-name">Minto Heights</div>
+            <div class="card-sub">Minto NSW · 2 sites</div>
+            <div class="bar"><div class="fill fill-g" style="width:72%"></div></div>
+            <div class="row"><span style="font-size:10px;color:#9aa0ad">72% complete</span><span class="chip ch-g">On Track</span></div>
+          </div>
+          <div class="card" onclick="go('s2')">
+            <div class="card-name">Campbelltown Grove</div>
+            <div class="card-sub">Campbelltown NSW · 1 site</div>
+            <div class="bar"><div class="fill fill-o" style="width:12%"></div></div>
+            <div class="row"><span style="font-size:10px;color:#9aa0ad">12% complete</span><span class="chip ch-n">Setup</span></div>
+          </div>
+        </div>
+        <div class="home-bar"><div class="home-pill"></div></div>
+      </div>
+
+      <!-- S2: SITES -->
+      <div class="sc" id="s2">
+        <div class="topbar">
+          <div class="back" onclick="go('s1')">‹ Projects</div>
+          <div class="topbar-title">Oakdale Residences</div>
+        </div>
+        <div class="body">
+          <div class="card" onclick="go('s3')" style="border-color:#e8620a">
+            <div class="row"><div class="card-name">Lot 4 – 12 Kirra St</div><span class="chip ch-a">2 Quotes</span></div>
+            <div class="card-sub">Oran Park NSW 2570</div>
+            <div class="bar"><div class="fill fill-o" style="width:40%"></div></div>
+            <div style="font-size:10px;color:#9aa0ad">Stage 4 of 21</div>
+          </div>
+          <div class="card" onclick="go('s3')">
+            <div class="row"><div class="card-name">Lot 5 – 14 Kirra St</div><span class="chip ch-g">On Track</span></div>
+            <div class="card-sub">Oran Park NSW 2570</div>
+            <div class="bar"><div class="fill fill-g" style="width:65%"></div></div>
+            <div style="font-size:10px;color:#9aa0ad">Stage 9 of 21</div>
+          </div>
+          <div class="card" onclick="go('s3')">
+            <div class="row"><div class="card-name">Lot 6 – 16 Kirra St</div><span class="chip ch-n">In Progress</span></div>
+            <div class="card-sub">Oran Park NSW 2570</div>
+            <div class="bar"><div class="fill fill-o" style="width:18%"></div></div>
+            <div style="font-size:10px;color:#9aa0ad">Stage 2 of 21</div>
+          </div>
+        </div>
+        <div class="home-bar"><div class="home-pill"></div></div>
+      </div>
+
+      <!-- S3: STAGES -->
+      <div class="sc" id="s3">
+        <div class="topbar">
+          <div class="back" onclick="go('s2')">‹ Sites</div>
+          <div class="topbar-title">Lot 4 – 12 Kirra St</div>
+        </div>
+        <div class="body">
+          <div class="stage-row"><div class="num nd">✓</div><div><div class="sname">Peering</div><div class="strade">Century Slabs NSW</div></div><span class="chip ch-g" style="margin-left:auto">Done</span></div>
+          <div class="stage-row"><div class="num nd">✓</div><div><div class="sname">Plumbing</div><div class="strade">AquaFlow</div></div><span class="chip ch-g" style="margin-left:auto">Done</span></div>
+          <div class="stage-row" style="cursor:pointer" onclick="go('s4')"><div class="num nc">3</div><div><div class="sname" style="color:#e8620a">Concrete Slab</div><div class="strade">Tap to review quotes</div></div><span class="chip ch-a" style="margin-left:auto">Quotes</span></div>
+          <div class="stage-row" style="opacity:.4"><div class="num np">4</div><div><div class="sname">Framework</div><div class="strade">—</div></div></div>
+          <div class="stage-row" style="opacity:.4"><div class="num np">5</div><div><div class="sname">Bricks</div><div class="strade">—</div></div></div>
+          <div class="stage-row" style="opacity:.4"><div class="num np">6</div><div><div class="sname">Roofing</div><div class="strade">—</div></div></div>
+          <div style="text-align:center;padding:12px 0;font-size:10px;color:#c0c4cc">+ 15 more stages</div>
+        </div>
+        <div class="home-bar"><div class="home-pill"></div></div>
+      </div>
+
+      <!-- S4: QUOTES -->
+      <div class="sc" id="s4" style="position:relative">
+        <div class="topbar">
+          <div class="back" onclick="go('s3')">‹ Stages</div>
+          <div class="topbar-title">Choose Supplier</div>
+          <div class="topbar-sub">Concrete Slab · 3 quotes received</div>
+        </div>
+        <div class="body">
+          <div class="q-card sel" id="qc1">
+            <div class="row"><div class="q-name">Century Slabs NSW</div><span class="best">Best value</span></div>
+            <div class="q-lic">Lic. 343631C · Melonba NSW</div>
+            <div class="q-price">$28,902</div>
+            <div class="q-note">Piering 70lm · Concrete Slab 150m² · Pump ×2 · RW Tank</div>
+            <div class="q-actions">
+              <div class="q-btns">
+                <button class="qbtn qbtn-preview" onclick="openPreview(1,event)">Preview quote</button>
+                <button class="qbtn qbtn-sel on" id="qb1" onclick="pick(1,event)">✓ Selected</button>
+              </div>
+            </div>
+          </div>
+          <div class="q-card" id="qc2">
+            <div class="q-name">ProSlab Solutions</div>
+            <div class="q-lic">Lic. 512088C · Rouse Hill NSW</div>
+            <div class="q-price">$31,450</div>
+            <div class="q-note">Piering 70lm · Concrete Slab 150m² · Pump ×2 · RW Tank</div>
+            <div class="q-actions">
+              <div class="q-btns">
+                <button class="qbtn qbtn-preview" onclick="openPreview(2,event)">Preview quote</button>
+                <button class="qbtn qbtn-sel" id="qb2" onclick="pick(2,event)">Select</button>
+              </div>
+            </div>
+          </div>
+          <div class="q-card" id="qc3">
+            <div class="q-name">Slab Masters Pty Ltd</div>
+            <div class="q-lic">Lic. 489922C · Penrith NSW</div>
+            <div class="q-price">$33,110</div>
+            <div class="q-note">Piering 80lm · Concrete Slab 150m² · Pump ×3 · RW Tank</div>
+            <div class="q-actions">
+              <div class="q-btns">
+                <button class="qbtn qbtn-preview" onclick="openPreview(3,event)">Preview quote</button>
+                <button class="qbtn qbtn-sel" id="qb3" onclick="pick(3,event)">Select</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="btm">
+          <button class="btn btn-s" onclick="go('s3')">Cancel</button>
+          <button class="btn btn-p" onclick="go('s5')">Generate PO →</button>
+        </div>
+        <div class="home-bar"><div class="home-pill"></div></div>
+        <div class="preview-overlay" id="pv-overlay">
+          <div class="pv-handle"></div>
+          <div class="pv-title" id="pv-title"></div>
+          <div id="pv-lines"></div>
+          <div class="pv-total">
+            <span style="font-size:12px;font-weight:600;color:#8899aa">Total (incl. tax)</span>
+            <span id="pv-total" style="font-size:16px;font-weight:800;color:#fff;font-family:monospace"></span>
+          </div>
+          <button class="pv-close" onclick="closePreview()">Close</button>
+        </div>
+      </div>
+
+      <!-- S5: PO -->
+      <div class="sc" id="s5">
+        <div class="po-top">
+          <div class="back" style="color:#8899aa;font-size:12px;cursor:pointer;margin-bottom:5px" onclick="go('s4')">‹ Quotes</div>
+          <div class="po-t">Purchase Order</div>
+          <div class="po-s">Century Slabs NSW · Concrete Slab</div>
+          <div class="po-meta">
+            <div class="pm"><label>PO No.</label><span>PO-2025-0041</span></div>
+            <div class="pm"><label>Date</label><span>25 May 2025</span></div>
+          </div>
+        </div>
+        <div class="body">
+          <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#9aa0ad;margin-bottom:8px">Line items</div>
+          <div class="po-row"><span>Piering (First 70lm)</span><span>$5,600</span></div>
+          <div class="po-row"><span>Concrete Slab 150m²</span><span>$18,750</span></div>
+          <div class="po-row"><span>Pump ×2</span><span>$1,800</span></div>
+          <div class="po-row"><span>RW Tank Slab</span><span>$125</span></div>
+          <div class="po-row"><span class="l">Tax (10%)</span><span class="l">$2,627</span></div>
+          <div class="po-tot">
+            <span style="font-size:12px;font-weight:600;color:#8899aa">Total incl. tax</span>
+            <span style="font-size:16px;font-weight:800;color:#fff;font-family:monospace">$28,902</span>
+          </div>
+        </div>
+        <div class="btm">
+          <button class="btn btn-s">⬇ PDF</button>
+          <button class="btn btn-p" onclick="go('s1')">✓ Finalise Stage</button>
+        </div>
+        <div class="home-bar"><div class="home-pill"></div></div>
+      </div>
+
+    </div>
+  </div>
+  <div style="margin-top:12px;font-size:11px;color:var(--color-text-secondary)">Tap any card to navigate</div>
+</div>
+
+<script>
+var quotes=[
+  {name:'Century Slabs NSW',lines:[['Piering (First 70lm)','$5,600'],['Concrete Slab 150m²','$18,750'],['Pump ×2','$1,800'],['RW Tank Slab','$125']],total:'$28,902'},
+  {name:'ProSlab Solutions',lines:[['Piering (First 70lm)','$6,100'],['Concrete Slab 150m²','$19,800'],['Pump ×2','$1,800'],['RW Tank Slab','$150']],total:'$31,450'},
+  {name:'Slab Masters Pty Ltd',lines:[['Piering (First 80lm)','$6,800'],['Concrete Slab 150m²','$20,900'],['Pump ×3','$2,700'],['RW Tank Slab','$150']],total:'$33,110'}
+];
+function go(id){
+  document.querySelectorAll('.sc').forEach(function(s){s.classList.remove('on')});
+  document.getElementById(id).classList.add('on');
+  closePreview();
+}
+function pick(n,e){if(e)e.stopPropagation();[1,2,3].forEach(function(i){document.getElementById('qc'+i).classList.remove('sel');var b=document.getElementById('qb'+i);b.textContent='Select';b.classList.remove('on')});document.getElementById('qc'+n).classList.add('sel');var b=document.getElementById('qb'+n);b.textContent='✓ Selected';b.classList.add('on');}
+function openPreview(n,e){if(e)e.stopPropagation();var q=quotes[n-1];document.getElementById('pv-title').textContent=q.name+' — Quote';var html='';q.lines.forEach(function(r){html+='<div class="pv-row"><span class="l">'+r[0]+'</span><span>'+r[1]+'</span></div>'});document.getElementById('pv-lines').innerHTML=html;document.getElementById('pv-total').textContent=q.total;document.getElementById('pv-overlay').classList.add('open');}
+function closePreview(){document.getElementById('pv-overlay').classList.remove('open');}
+
+var fill=document.getElementById('splash-fill');
+var w=0;
+var t=setInterval(function(){
+  w+=2;
+  fill.style.width=w+'%';
+  if(w>=100){clearInterval(t);setTimeout(function(){go('s-login')},300);}
+},40);
+</script>
