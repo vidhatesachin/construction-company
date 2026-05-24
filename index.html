@@ -91,10 +91,11 @@
 .home-pill{width:90px;height:4px;background:#1c2635;border-radius:2px}
 
 @media(max-width:600px){
-  body{background:#0e1320;height:100vh}
-  .wrap{padding:0;background:none;border-radius:0;min-height:100vh;justify-content:flex-start}
+  html,body{height:100%}
+  body{background:#0e1320;height:var(--app-vh,100dvh);min-height:100dvh;overflow:hidden}
+  .wrap{padding:0;background:none;border-radius:0;min-height:var(--app-vh,100dvh);justify-content:flex-start}
   .device-frame{width:100%}
-  .screen-clip{min-height:calc(100vh - 48px)}
+  .screen-clip{min-height:calc(var(--app-vh,100dvh) - 48px)}
   .wrap > div:last-child{display:none}
 }
 
@@ -332,6 +333,16 @@
 </div>
 
 <script>
+function setMobileViewportHeight(){
+  var vh=(window.visualViewport&&window.visualViewport.height)?window.visualViewport.height:window.innerHeight;
+  document.documentElement.style.setProperty('--app-vh',vh+'px');
+}
+
+setMobileViewportHeight();
+window.addEventListener('resize',setMobileViewportHeight);
+window.addEventListener('orientationchange',setMobileViewportHeight);
+if(window.visualViewport){window.visualViewport.addEventListener('resize',setMobileViewportHeight);}
+
 var quotes=[
   {name:'Century Slabs NSW',lines:[['Piering (First 70lm)','$5,600'],['Concrete Slab 150m²','$18,750'],['Pump ×2','$1,800'],['RW Tank Slab','$125']],total:'$28,902'},
   {name:'ProSlab Solutions',lines:[['Piering (First 70lm)','$6,100'],['Concrete Slab 150m²','$19,800'],['Pump ×2','$1,800'],['RW Tank Slab','$150']],total:'$31,450'},
