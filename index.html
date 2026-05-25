@@ -41,13 +41,25 @@
 .ch-a{background:#fef8ec;color:#b86a00}
 .ch-n{background:#eef0f4;color:#6b7280}
 
-.stage-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:0.5px solid #f0f2f5}
-.num{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
-.nd{background:#edf7f2;color:#1a8a55}
-.nc{background:#e8620a;color:#fff}
-.np{background:#eef0f4;color:#9aa0ad;border:0.5px solid #e0e3e8}
-.sname{font-size:12px;font-weight:600;color:#111820}
-.strade{font-size:10px;color:#9aa0ad;margin-top:1px}
+.tl-item{display:flex;gap:10px;padding-bottom:0}
+.tl-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:36px}
+.tl-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0}
+.tl-dot.done{background:linear-gradient(135deg,#1a8a55,#27b76e);color:#fff;box-shadow:0 2px 8px rgba(26,138,85,0.25)}
+.tl-dot.current{background:linear-gradient(135deg,#e8620a,#f07a30);color:#fff;box-shadow:0 3px 10px rgba(232,98,10,0.30)}
+.tl-dot.pending{background:#f4f5f8;color:#b0b8c8;border:1.5px solid #e0e3e8}
+.tl-line{width:2px;flex:1;min-height:8px;background:linear-gradient(to bottom,#e0e3e8,#f0f2f5);margin:4px 0;border-radius:1px}
+.tl-item.done>.tl-left>.tl-line{background:linear-gradient(to bottom,#c9ead9,#e0e3e8)}
+.tl-body{flex:1;margin-bottom:10px}
+.tl-card{background:#fff;border-radius:13px;padding:11px 13px;border:0.5px solid #e8eaed}
+.tl-card.done{background:#f6fbf8;border-color:#c9ead9}
+.tl-card.current{background:linear-gradient(145deg,#fff8f4,#fff);border-color:#f0b48a;box-shadow:0 3px 14px rgba(232,98,10,0.12)}
+.tl-card.pending{opacity:0.5;background:#fafafa}
+.tl-title{font-size:13px;font-weight:700;color:#111820;letter-spacing:-0.1px}
+.tl-card.current .tl-title{color:#e8620a}
+.tl-sub{font-size:11px;color:#9aa0ad;margin-top:2px}
+.tl-status{display:inline-flex;align-items:center;font-size:10px;font-weight:700;margin-top:7px;padding:2px 8px;border-radius:20px}
+.tl-status.done{background:#edf7f2;color:#1a8a55}
+.tl-status.current{background:#fef3ec;color:#e8620a}
 
 .q-card{background:#fff;border-radius:13px;padding:13px;margin-bottom:8px;border:0.5px solid #e8eaed}
 .q-card.sel{border:1.5px solid #1a8a55;background:#f6fbf8}
@@ -200,19 +212,19 @@
         </div>
         <div class="body">
           <div class="card" onclick="go('s3')" style="border-color:#e8620a">
-            <div class="row"><div class="card-name">Lot 4 – 12 Kirra St</div><span class="chip ch-a">2 Quotes</span></div>
+            <div class="row"><div class="card-name">Lot 4 – Kirra Terrace</div><span class="chip ch-a">2 Quotes</span></div>
             <div class="card-sub">Oran Park NSW 2570</div>
             <div class="bar"><div class="fill fill-o" style="width:40%"></div></div>
             <div style="font-size:10px;color:#9aa0ad">Stage 4 of 21</div>
           </div>
           <div class="card" onclick="go('s3')">
-            <div class="row"><div class="card-name">Lot 5 – 14 Kirra St</div><span class="chip ch-g">On Track</span></div>
+            <div class="row"><div class="card-name">Lot 5 – Parkview Rise</div><span class="chip ch-g">On Track</span></div>
             <div class="card-sub">Oran Park NSW 2570</div>
             <div class="bar"><div class="fill fill-g" style="width:65%"></div></div>
             <div style="font-size:10px;color:#9aa0ad">Stage 9 of 21</div>
           </div>
           <div class="card" onclick="go('s3')">
-            <div class="row"><div class="card-name">Lot 6 – 16 Kirra St</div><span class="chip ch-n">In Progress</span></div>
+            <div class="row"><div class="card-name">Lot 6 – The Arbour</div><span class="chip ch-n">In Progress</span></div>
             <div class="card-sub">Oran Park NSW 2570</div>
             <div class="bar"><div class="fill fill-o" style="width:18%"></div></div>
             <div style="font-size:10px;color:#9aa0ad">Stage 2 of 21</div>
@@ -225,16 +237,55 @@
       <div class="sc" id="s3">
         <div class="topbar">
           <div class="back" onclick="go('s2')">‹ Sites</div>
-          <div class="topbar-title">Lot 4 – 12 Kirra St</div>
+          <div class="topbar-title">Lot 4 – Kirra Terrace</div>
         </div>
         <div class="body">
-          <div class="stage-row"><div class="num nd">✓</div><div><div class="sname">Peering</div><div class="strade">Century Slabs NSW</div></div><span class="chip ch-g" style="margin-left:auto">Done</span></div>
-          <div class="stage-row"><div class="num nd">✓</div><div><div class="sname">Plumbing</div><div class="strade">AquaFlow</div></div><span class="chip ch-g" style="margin-left:auto">Done</span></div>
-          <div class="stage-row" style="cursor:pointer" onclick="go('s4')"><div class="num nc">3</div><div><div class="sname" style="color:#e8620a">Concrete Slab</div><div class="strade">Tap to review quotes</div></div><span class="chip ch-a" style="margin-left:auto">Quotes</span></div>
-          <div class="stage-row" style="opacity:.4"><div class="num np">4</div><div><div class="sname">Framework</div><div class="strade">—</div></div></div>
-          <div class="stage-row" style="opacity:.4"><div class="num np">5</div><div><div class="sname">Bricks</div><div class="strade">—</div></div></div>
-          <div class="stage-row" style="opacity:.4"><div class="num np">6</div><div><div class="sname">Roofing</div><div class="strade">—</div></div></div>
-          <div style="text-align:center;padding:12px 0;font-size:10px;color:#c0c4cc">+ 15 more stages</div>
+          <div class="tl-item done">
+            <div class="tl-left"><div class="tl-dot done">✓</div><div class="tl-line"></div></div>
+            <div class="tl-body"><div class="tl-card done">
+              <div class="tl-title">Piering</div>
+              <div class="tl-sub">Century Slabs NSW</div>
+              <div class="tl-status done">Completed</div>
+            </div></div>
+          </div>
+          <div class="tl-item done">
+            <div class="tl-left"><div class="tl-dot done">✓</div><div class="tl-line"></div></div>
+            <div class="tl-body"><div class="tl-card done">
+              <div class="tl-title">Plumbing Rough-in</div>
+              <div class="tl-sub">AquaFlow Plumbing</div>
+              <div class="tl-status done">Completed</div>
+            </div></div>
+          </div>
+          <div class="tl-item current" style="cursor:pointer" onclick="go('s4')">
+            <div class="tl-left"><div class="tl-dot current">3</div><div class="tl-line"></div></div>
+            <div class="tl-body"><div class="tl-card current">
+              <div class="row"><div class="tl-title">Concrete Slab</div><span class="chip ch-a">Quotes</span></div>
+              <div class="tl-sub">Tap to review quotes</div>
+              <div class="tl-status current">Action Required</div>
+            </div></div>
+          </div>
+          <div class="tl-item pending">
+            <div class="tl-left"><div class="tl-dot pending">4</div><div class="tl-line"></div></div>
+            <div class="tl-body"><div class="tl-card pending">
+              <div class="tl-title">Framework</div>
+              <div class="tl-sub">Not scheduled</div>
+            </div></div>
+          </div>
+          <div class="tl-item pending">
+            <div class="tl-left"><div class="tl-dot pending">5</div><div class="tl-line"></div></div>
+            <div class="tl-body"><div class="tl-card pending">
+              <div class="tl-title">Brickwork</div>
+              <div class="tl-sub">Not scheduled</div>
+            </div></div>
+          </div>
+          <div class="tl-item pending">
+            <div class="tl-left"><div class="tl-dot pending">6</div></div>
+            <div class="tl-body"><div class="tl-card pending">
+              <div class="tl-title">Roofing</div>
+              <div class="tl-sub">Not scheduled</div>
+            </div></div>
+          </div>
+          <div style="text-align:center;padding:8px 0;font-size:10px;color:#c0c4cc">+ 15 more stages</div>
         </div>
         <div class="home-bar"><div class="home-pill"></div></div>
       </div>
